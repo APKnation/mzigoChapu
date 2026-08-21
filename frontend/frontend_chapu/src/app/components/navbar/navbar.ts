@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css']
 })
@@ -27,7 +28,6 @@ export class NavbarComponent implements OnInit {
 
   changeLanguage(lang: string): void {
     this.currentLang = lang;
-    // Simple language toggle for now - full i18n can be added later
     console.log('Language changed to:', lang);
   }
 
@@ -37,6 +37,6 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('userRole');
     this.isAuthenticated = false;
     this.userRole = null;
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 }

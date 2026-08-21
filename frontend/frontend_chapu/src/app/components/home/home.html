@@ -1,51 +1,188 @@
-<div class="container mx-auto p-6">
-  <h1 class="text-4xl font-bold mb-8 text-gray-800">Welcome back!</h1>
+<!-- Unauthenticated Landing Page -->
+<div *ngIf="!userRole" class="landing-page">
+  <!-- Hero Section -->
+  <section class="hero bg-gradient-to-r from-blue-600 to-blue-800 text-white py-24 px-6">
+    <div class="max-w-7xl mx-auto text-center">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6">Connecting Tanzania's Freight Network</h1>
+      <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">mzigoChapU is Tanzania's leading platform that connects cargo owners with reliable truck drivers across the country. Ship anything, anywhere, with confidence.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a routerLink="/register" class="px-8 py-4 bg-green-500 hover:bg-green-600 rounded-lg text-lg font-semibold transition-colors">Get Started Free</a>
+        <a routerLink="/login" class="px-8 py-4 bg-white text-blue-700 hover:bg-gray-100 rounded-lg text-lg font-semibold transition-colors">Sign In</a>
+      </div>
+    </div>
+  </section>
 
-  <div *ngIf="userRole === 'cargo_owner'" class="mb-12">
-    <h2 class="text-2xl font-semibold mb-4 text-blue-600">Your Posted Loads</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-        <h3 class="text-xl font-bold mb-2">Post New Load</h3>
-        <p class="text-gray-600 mb-4">Create a new listing for your cargo to find available trucks.</p>
-        <a routerLink="/cargo" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Post Load</a>
+  <!-- Features Section -->
+  <section class="features py-20 px-6 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">Why Choose mzigoChapU?</h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="feature-card bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+          <div class="feature-icon w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">🚛</span>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4 text-center text-gray-800">Wide Network</h3>
+          <p class="text-gray-600 text-center">Access thousands of verified truck drivers across all regions of Tanzania, from Dar es Salaam to Mbeya.</p>
+        </div>
+        <div class="feature-card bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+          <div class="feature-icon w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">🔒</span>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4 text-center text-gray-800">Secure Payments</h3>
+          <p class="text-gray-600 text-center">Escrow-protected payments powered by Tanzanian mobile money platforms ensure safe transactions.</p>
+        </div>
+        <div class="feature-card bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+          <div class="feature-icon w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">📍</span>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4 text-center text-gray-800">Real-Time Tracking</h3>
+          <p class="text-gray-600 text-center">Track your cargo in real-time with GPS technology, always know where your shipment is.</p>
+        </div>
       </div>
-      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-        <h3 class="text-xl font-bold mb-2">View My Loads</h3>
-        <p class="text-gray-600 mb-4">Track the status of all loads you have posted.</p>
-        <a href="#" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">View Loads</a>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">How It Works</h2>
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <ol class="space-y-8">
+            <li class="flex gap-6">
+              <span class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold">1</span>
+              <div>
+                <h3 class="text-2xl font-semibold mb-2 text-gray-800">Create Your Account</h3>
+                <p class="text-gray-600">Sign up as either a cargo owner needing to ship goods or a truck owner with capacity to transport.</p>
+              </div>
+            </li>
+            <li class="flex gap-6">
+              <span class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold">2</span>
+              <div>
+                <h3 class="text-2xl font-semibold mb-2 text-gray-800">Post or Browse Loads</h3>
+                <p class="text-gray-600">Cargo owners post their shipment details, truck owners browse available loads that match their route.</p>
+              </div>
+            </li>
+            <li class="flex gap-6">
+              <span class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold">3</span>
+              <div>
+                <h3 class="text-2xl font-semibold mb-2 text-gray-800">Connect & Ship</h3>
+                <p class="text-gray-600">Accept a bid, confirm the trip, and track your cargo until it reaches its destination safely.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <div class="bg-gray-100 p-8 rounded-xl">
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-2 gap-6 text-center">
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+              <div class="text-4xl font-bold text-blue-600 mb-2">5000+</div>
+              <div class="text-gray-600">Active Drivers</div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+              <div class="text-4xl font-bold text-green-600 mb-2">12000+</div>
+              <div class="text-gray-600">Loads Delivered</div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+              <div class="text-4xl font-bold text-purple-600 mb-2">30+</div>
+              <div class="text-gray-600">Regions Covered</div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+              <div class="text-4xl font-bold text-orange-600 mb-2">98%</div>
+              <div class="text-gray-600">On-Time Rate</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-        <h3 class="text-xl font-bold mb-2">View Bids</h3>
-        <p class="text-gray-600 mb-4">Review and accept bids from truck owners on your loads.</p>
-        <a href="#" class="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">View Bids</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8 mb-12">
+        <div>
+          <h3 class="text-2xl font-bold mb-4 text-blue-400">mzigoChapU</h3>
+          <p class="text-gray-400">Tanzania's most trusted freight matching platform connecting cargo owners and drivers nationwide.</p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Platform</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition-colors">How It Works</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Safety</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Company</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Legal</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+        <p>&copy; 2026 mzigoChapU. All rights reserved. Made in Tanzania 🇹🇿</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Logged In Dashboard - Cargo Owner -->
+<div *ngIf="userRole === 'cargo_owner'" class="cargo-owner-dashboard min-h-screen bg-gray-50 py-12 px-6">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8 text-blue-600">Your Cargo Owner Dashboard</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <a routerLink="/cargo" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center">
+        <div class="text-4xl mb-4">📦</div>
+        <h3 class="text-xl font-semibold mb-2">Post New Load</h3>
+        <p class="text-gray-600">Create a new shipment listing for your cargo</p>
+      </a>
+      <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center cursor-pointer">
+        <div class="text-4xl mb-4">👁️</div>
+        <h3 class="text-xl font-semibold mb-2">View My Loads</h3>
+        <p class="text-gray-600">Track all your active and completed shipments</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center cursor-pointer">
+        <div class="text-4xl mb-4">💰</div>
+        <h3 class="text-xl font-semibold mb-2">View Bids</h3>
+        <p class="text-gray-600">See bids from truck owners on your posted loads</p>
       </div>
     </div>
   </div>
+</div>
 
-  <div *ngIf="userRole === 'truck_owner'" class="mb-12">
-    <h2 class="text-2xl font-semibold mb-4 text-green-600">Your Accepted Trips</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-        <h3 class="text-xl font-bold mb-2">Available Loads</h3>
-        <p class="text-gray-600 mb-4">Browse all posted loads and place bids to transport cargo.</p>
-        <a routerLink="/cargo" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Browse Loads</a>
+<!-- Logged In Dashboard - Truck Owner -->
+<div *ngIf="userRole === 'truck_owner'" class="truck-owner-dashboard min-h-screen bg-gray-50 py-12 px-6">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8 text-green-600">Your Truck Owner Dashboard</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <a routerLink="/cargo" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center">
+        <div class="text-4xl mb-4">🔍</div>
+        <h3 class="text-xl font-semibold mb-2">Browse Loads</h3>
+        <p class="text-gray-600">Find available shipments that match your route</p>
+      </a>
+      <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center cursor-pointer">
+        <div class="text-4xl mb-4">📍</div>
+        <h3 class="text-xl font-semibold mb-2">Track Trips</h3>
+        <p class="text-gray-600">Manage your active and upcoming trips</p>
       </div>
-      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-        <h3 class="text-xl font-bold mb-2">Active Trips</h3>
-        <p class="text-gray-600 mb-4">Track and manage your currently active delivery trips.</p>
-        <a href="#" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Track Trips</a>
-      </div>
-      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-        <h3 class="text-xl font-bold mb-2">My Bids</h3>
-        <p class="text-gray-600 mb-4">Review the status of all bids you have placed on loads.</p>
-        <a href="#" class="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">View Bids</a>
+      <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center cursor-pointer">
+        <div class="text-4xl mb-4">📋</div>
+        <h3 class="text-xl font-semibold mb-2">My Bids</h3>
+        <p class="text-gray-600">Review your submitted bids and their status</p>
       </div>
     </div>
-  </div>
-
-  <div *ngIf="!userRole" class="text-center py-12 bg-gray-50 rounded-lg">
-    <p class="text-xl text-gray-600 mb-4">Welcome to mzigoChapU - Tanzania's Freight Matching Platform</p>
-    <a routerLink="/login" class="px-6 py-3 bg-blue-500 text-white rounded-lg mr-4 hover:bg-blue-600 transition-colors">Login</a>
-    <a routerLink="/register" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">Register</a>
   </div>
 </div>
