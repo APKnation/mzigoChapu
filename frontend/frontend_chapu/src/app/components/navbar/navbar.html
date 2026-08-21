@@ -1,0 +1,25 @@
+<nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+  <div class="text-2xl font-bold text-blue-600">
+    <a routerLink="/">mzigoChapU</a>
+  </div>
+  <div class="flex items-center space-x-4">
+    <!-- Language Switcher -->
+    <div>
+      <button (click)="changeLanguage('en')" class="px-3 py-1 mr-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">English</button>
+      <button (click)="changeLanguage('sw')" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">Kiswahili</button>
+    </div>
+
+    <!-- Authentication Links -->
+    <ng-container *ngIf="!isAuthenticated">
+      <a routerLink="/login" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Login</a>
+      <a routerLink="/register" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">Register</a>
+    </ng-container>
+
+    <!-- Logged In Links -->
+    <ng-container *ngIf="isAuthenticated">
+      <a routerLink="/" class="px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Dashboard</a>
+      <a routerLink="/cargo" class="px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Cargo</a>
+      <button (click)="logout()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">Logout</button>
+    </ng-container>
+  </div>
+</nav>

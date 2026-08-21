@@ -1,0 +1,51 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-4xl font-bold mb-8 text-gray-800">Welcome back!</h1>
+
+  <div *ngIf="userRole === 'cargo_owner'" class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4 text-blue-600">Your Posted Loads</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+        <h3 class="text-xl font-bold mb-2">Post New Load</h3>
+        <p class="text-gray-600 mb-4">Create a new listing for your cargo to find available trucks.</p>
+        <a routerLink="/cargo" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Post Load</a>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+        <h3 class="text-xl font-bold mb-2">View My Loads</h3>
+        <p class="text-gray-600 mb-4">Track the status of all loads you have posted.</p>
+        <a href="#" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">View Loads</a>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+        <h3 class="text-xl font-bold mb-2">View Bids</h3>
+        <p class="text-gray-600 mb-4">Review and accept bids from truck owners on your loads.</p>
+        <a href="#" class="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">View Bids</a>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="userRole === 'truck_owner'" class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4 text-green-600">Your Accepted Trips</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+        <h3 class="text-xl font-bold mb-2">Available Loads</h3>
+        <p class="text-gray-600 mb-4">Browse all posted loads and place bids to transport cargo.</p>
+        <a routerLink="/cargo" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Browse Loads</a>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+        <h3 class="text-xl font-bold mb-2">Active Trips</h3>
+        <p class="text-gray-600 mb-4">Track and manage your currently active delivery trips.</p>
+        <a href="#" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Track Trips</a>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+        <h3 class="text-xl font-bold mb-2">My Bids</h3>
+        <p class="text-gray-600 mb-4">Review the status of all bids you have placed on loads.</p>
+        <a href="#" class="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">View Bids</a>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!userRole" class="text-center py-12 bg-gray-50 rounded-lg">
+    <p class="text-xl text-gray-600 mb-4">Welcome to mzigoChapU - Tanzania's Freight Matching Platform</p>
+    <a routerLink="/login" class="px-6 py-3 bg-blue-500 text-white rounded-lg mr-4 hover:bg-blue-600 transition-colors">Login</a>
+    <a routerLink="/register" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">Register</a>
+  </div>
+</div>

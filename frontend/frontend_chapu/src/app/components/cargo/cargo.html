@@ -1,0 +1,51 @@
+<div class="container mx-auto p-6">
+  <!-- Post Load Form (only visible to Cargo Owners) -->
+  <div *ngIf="userRole === 'cargo_owner'" class="mb-12">
+    <h1 class="text-3xl font-bold mb-6">Post a New Load</h1>
+    <form (ngSubmit)="onPostLoadSubmit()" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
+      <div *ngIf="postMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+        {{ postMessage }}
+      </div>
+      <div *ngIf="postError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+        {{ postError }}
+      </div>
+
+      <div class="mb-4">
+        <label for="pickup" class="block text-gray-700 text-sm font-bold mb-2">Pickup Location</label>
+        <input type="text" id="pickup" [(ngModel)]="loadDetails.pickup_location" name="pickup_location" required class="shadow border rounded w-full py-2 px-3" />
+      </div>
+      <div class="mb-4">
+        <label for="dropoff" class="block text-gray-700 text-sm font-bold mb-2">Dropoff Location</label>
+        <input type="text" id="dropoff" [(ngModel)]="loadDetails.dropoff_location" name="dropoff_location" required class="shadow border rounded w-full py-2 px-3" />
+      </div>
+      <div class="mb-4">
+        <label for="weight" class="block text-gray-700 text-sm font-bold mb-2">Weight (kg)</label>
+        <input type="number" id="weight" [(ngModel)]="loadDetails.weight_kg" name="weight_kg" required class="shadow border rounded w-full py-2 px-3" />
+      </div>
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+        <textarea id="description" [(ngModel)]="loadDetails.description" name="description" rows="4" class="shadow border rounded w-full py-2 px-3"></textarea>
+      </div>
+      <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Post Load</button>
+    </form>
+  </div>
+
+  <!-- Available Loads List (for all authenticated users) -->
+  <div>
+    <h1 class="text-3xl font-bold mb-6">Available Loads</h1>
+    <div *ngIf="loadingLoads" class="text-center text-lg">Loading available loads...</div>
+    <div *ngIf="loadsError" class="text-center text-red-600 text-lg">{{ loadsError }}</div>
+
+    <div *ngIf="!loadingLoads && !loadsError">
+      <div *ngIf="loads.length === 0" class="text-center text-gray-600 py-8">No loads available at this time.</div>
+      <div *ngIf="loads.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let load of loads" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <h2 class="text-xl font-semibold mb-2">{{ load.pickup_location }} → {{ load.dropoff_location }}</h2>
+          <p class="text-gray-700 mb-1"><strong>Weight:</strong> {{ load.weight_kg }}kg</p>
+          <p class="text-gray-700 mb-4">{{ load.description }}</p>
+          <button *ngIf="userRole === 'truck_owner'" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Place Bid</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
