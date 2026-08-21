@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 export class Register {
   registerData = {
     username: '',
-    email: '',
+    phone_number: '',
     password: '',
     confirmPassword: '',
     user_role: 'cargo_owner'
@@ -27,8 +27,15 @@ export class Register {
     this.registerError = '';
     this.registerSuccess = '';
     
-    if (!this.registerData.username || !this.registerData.email || !this.registerData.password || !this.registerData.confirmPassword) {
+    if (!this.registerData.username || !this.registerData.phone_number || !this.registerData.password || !this.registerData.confirmPassword) {
       this.registerError = 'Please fill in all fields.';
+      return;
+    }
+
+    // Validate Tanzanian phone number format (supports +255, 07, 06)
+    const phoneRegex = /^(\+255|0)[67]\d{8}$/;
+    if (!phoneRegex.test(this.registerData.phone_number)) {
+      this.registerError = 'Please enter a valid Tanzanian phone number (e.g., 0712345678 or +255712345678)';
       return;
     }
 
@@ -37,15 +44,15 @@ export class Register {
       return;
     }
 
-    if (this.registerData.password.length < 8) {
-      this.registerError = 'Password must be at least 8 characters long.';
+    if (this.registerData.password.length < 6) {
+      this.registerError = 'Password must be at least 6 characters long.';
       return;
     }
 
     try {
       const payload = {
         username: this.registerData.username,
-        email: this.registerData.email,
+        phone_number: this.registerData.phone_number,
         password: this.registerData.password,
         user_role: this.registerData.user_role
       };
@@ -57,7 +64,7 @@ export class Register {
       }, 2000);
     } catch (error) {
       console.error('Registration error:', error);
-      this.registerError = 'Registration failed. Please try again.';
+      this.registerError = 'Registration failed. This phone number may already be registered.';
     }
   }
 }
