@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class Home implements OnInit {
   userRole: string | null = null;
 
-  constructor(private translate: TranslateService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.userRole = localStorage.getItem('userRole');

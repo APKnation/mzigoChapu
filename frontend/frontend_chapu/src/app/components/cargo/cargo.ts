@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
 
 interface Load {
   id: number;
@@ -37,7 +36,7 @@ export class Cargo implements OnInit {
 
   userRole: string | null = null;
 
-  constructor(private http: HttpClient, private translate: TranslateService) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.userRole = localStorage.getItem('userRole');

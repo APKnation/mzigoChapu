@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,8 +11,9 @@ import { CommonModule } from '@angular/common';
 export class NavbarComponent implements OnInit {
   isAuthenticated: boolean = false;
   userRole: string | null = null;
+  currentLang: string = 'en';
 
-  constructor(private router: Router, private translate: TranslateService) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.checkAuthenticationStatus();
@@ -26,7 +26,9 @@ export class NavbarComponent implements OnInit {
   }
 
   changeLanguage(lang: string): void {
-    this.translate.use(lang);
+    this.currentLang = lang;
+    // Simple language toggle for now - full i18n can be added later
+    console.log('Language changed to:', lang);
   }
 
   logout(): void {
