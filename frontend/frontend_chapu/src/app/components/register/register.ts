@@ -58,7 +58,7 @@ export class Register {
         user_role: this.registerData.user_role
       };
       
-      await this.http.post('http://localhost:8000/api/auth/register/', payload).toPromise();
+      await this.http.post('/api/auth/register/', payload).toPromise();
       this.registerSuccess = 'Registration successful! Redirecting to login...';
       setTimeout(() => {
         this.router.navigate(['/login']);
