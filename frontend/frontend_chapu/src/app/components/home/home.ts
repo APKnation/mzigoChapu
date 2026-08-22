@@ -65,4 +65,9 @@ export class Home implements OnInit {
     this.userRole = null;
     this.router.navigate(['/']);
   }
+
+  getRoleDisplay(): string {
+    if (!this.userRole) return '';
+    return this.userRole.replace(/_/g, ' ');
+  }
 }
