@@ -18,10 +18,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             raise serializers.ValidationError('Must include "phone_number" and "password"')
         
         refresh = self.get_token(user)
+        
+        # Override role if user is superadmin
+        role = 'superadmin' if user.is_superuser else user.user_role
+        
         return {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
-            'user_role': user.user_role
+            'user_role': role
         }
 
 class CustomTokenObtainPairView(TokenObtainPairView):
