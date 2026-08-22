@@ -1,8 +1,8 @@
-<div class="container mx-auto p-6">
+<div class="container mx-auto px-4 sm:px-6 py-6">
   <!-- Post Load Form (only visible to Cargo Owners) -->
   <div *ngIf="userRole === 'cargo_owner'" class="mb-12">
     <h1 class="text-3xl font-bold mb-6">Post a New Load</h1>
-    <form (ngSubmit)="onPostLoadSubmit()" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
+    <form (ngSubmit)="onPostLoadSubmit()" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg mx-auto">
       <div *ngIf="postMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
         {{ postMessage }}
       </div>

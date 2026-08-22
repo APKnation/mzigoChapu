@@ -13,6 +13,11 @@ export class NavbarComponent implements OnInit {
   isAuthenticated: boolean = false;
   userRole: string | null = null;
   currentLang: string = 'en';
+  menuOpen: boolean = false;
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
 
   constructor(private router: Router) { }
 

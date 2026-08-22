@@ -1,25 +1,65 @@
-<nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-  <div class="text-2xl font-bold text-blue-600">
-    <a routerLink="/">mzigoChapU</a>
-  </div>
-  <div class="flex items-center space-x-4">
-    <!-- Language Switcher -->
-    <div>
-      <button (click)="changeLanguage('en')" class="px-3 py-1 mr-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">English</button>
-      <button (click)="changeLanguage('sw')" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">Kiswahili</button>
+<nav class="bg-white shadow-md px-4 sm:px-6 py-4">
+  <div class="flex justify-between items-center">
+    <div class="text-2xl font-bold text-blue-600">
+      <a routerLink="/">mzigoChapU</a>
+    </div>
+    
+    <!-- Mobile menu button -->
+    <div class="md:hidden">
+      <button (click)="toggleMenu()" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+        <svg *ngIf="!menuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg *ngIf="menuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
     </div>
 
-    <!-- Authentication Links -->
-    <ng-container *ngIf="!isAuthenticated">
-      <a routerLink="/login" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Login</a>
-      <a routerLink="/register" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">Register</a>
-    </ng-container>
+    <!-- Desktop menu -->
+    <div class="hidden md:flex items-center space-x-4">
+      <!-- Language Switcher -->
+      <div>
+        <button (click)="changeLanguage('en')" class="px-3 py-1 mr-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">English</button>
+        <button (click)="changeLanguage('sw')" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">Kiswahili</button>
+      </div>
 
-    <!-- Logged In Links -->
-    <ng-container *ngIf="isAuthenticated">
-      <a routerLink="/" class="px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Dashboard</a>
-      <a routerLink="/cargo" class="px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Cargo</a>
-      <button (click)="logout()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">Logout</button>
-    </ng-container>
+      <!-- Authentication Links -->
+      <ng-container *ngIf="!isAuthenticated">
+        <a routerLink="/login" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Login</a>
+        <a routerLink="/register" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">Register</a>
+      </ng-container>
+
+      <!-- Logged In Links -->
+      <ng-container *ngIf="isAuthenticated">
+        <a routerLink="/" class="px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Dashboard</a>
+        <a routerLink="/cargo" class="px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors">Cargo</a>
+        <button (click)="logout()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">Logout</button>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div *ngIf="menuOpen" class="md:hidden mt-4 pb-4 border-t pt-4">
+    <div class="flex flex-col space-y-4">
+      <!-- Language Switcher -->
+      <div>
+        <button (click)="changeLanguage('en')" class="px-3 py-1 mr-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">English</button>
+        <button (click)="changeLanguage('sw')" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">Kiswahili</button>
+      </div>
+
+      <!-- Authentication Links -->
+      <ng-container *ngIf="!isAuthenticated">
+        <a routerLink="/login" (click)="toggleMenu()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center">Login</a>
+        <a routerLink="/register" (click)="toggleMenu()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors text-center">Register</a>
+      </ng-container>
+
+      <!-- Logged In Links -->
+      <ng-container *ngIf="isAuthenticated">
+        <a routerLink="/" (click)="toggleMenu()" class="px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors text-center">Dashboard</a>
+        <a routerLink="/cargo" (click)="toggleMenu()" class="px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors text-center">Cargo</a>
+        <button (click)="logout(); toggleMenu();" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">Logout</button>
+      </ng-container>
+    </div>
   </div>
 </nav>
