@@ -55,11 +55,16 @@ export class Cargo implements OnInit {
     }
 
     try {
-      const response = await this.http.get<Load[]>('/api/loads/', {
-        headers: { Authorization: `Bearer ${token}` },
-      }).toPromise();
+      const response = await fetch('http://localhost:8000/api/loads/', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
       
-      this.loads = response || [];
+      if (!response.ok) {
+        throw new Error('Failed to fetch loads');
+      }
+
+      this.loads = await response.json() || [];
       this.loadingLoads = false;
     } catch (error) {
       console.error('Error fetching loads:', error);
@@ -84,9 +89,18 @@ export class Cargo implements OnInit {
     }
 
     try {
-      await this.http.post('/api/loads/', this.loadDetails, {
-        headers: { Authorization: `Bearer ${token}` },
-      }).toPromise();
+      const response = await fetch('http://localhost:8000/api/loads/', {
+        method: 'POST',
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.loadDetails)
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to post load');
+      }
       
       this.postMessage = 'Load posted successfully!';
       this.loadDetails = { pickup_location: '', dropoff_location: '', weight_kg: null, description: '' };

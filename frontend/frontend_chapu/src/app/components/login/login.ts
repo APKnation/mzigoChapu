@@ -35,14 +35,24 @@ export class Login {
     }
 
     try {
-      const response: any = await this.http.post('http://localhost:8000/api/auth/token/', {
-        phone_number: this.loginData.phone_number,
-        password: this.loginData.password
-      }).toPromise();
+      const response = await fetch('http://localhost:8000/api/auth/token/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone_number: this.loginData.phone_number,
+          password: this.loginData.password
+        })
+      });
       
-      localStorage.setItem('accessToken', response.access);
-      localStorage.setItem('refreshToken', response.refresh);
-      localStorage.setItem('userRole', response.user_role);
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+      
+      localStorage.setItem('accessToken', data.access);
+      localStorage.setItem('refreshToken', data.refresh);
+      localStorage.setItem('userRole', data.user_role);
       this.router.navigate(['/']);
     } catch (error) {
       console.error('Login error:', error);

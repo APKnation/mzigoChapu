@@ -58,14 +58,23 @@ export class Register {
         user_role: this.registerData.user_role
       };
       
-      await this.http.post('/api/auth/register/', payload).toPromise();
+      const response = await fetch('http://localhost:8000/api/auth/register/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        throw new Error('Registration failed');
+      }
+
       this.registerSuccess = 'Registration successful! Redirecting to login...';
       setTimeout(() => {
         this.router.navigate(['/login']);
       }, 2000);
     } catch (error) {
       console.error('Registration error:', error);
-      this.registerError = 'Registration failed. This phone number may already be registered.';
+      this.registerError = 'Registration failed. This phone number or username may already be registered.';
     }
   }
 }
