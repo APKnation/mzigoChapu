@@ -35,7 +35,7 @@ export class Login {
     }
 
     try {
-      const response: any = await this.http.post('/api/auth/token/', {
+      const response: any = await this.http.post('http://localhost:8000/api/auth/token/', {
         phone_number: this.loginData.phone_number,
         password: this.loginData.password
       }).toPromise();

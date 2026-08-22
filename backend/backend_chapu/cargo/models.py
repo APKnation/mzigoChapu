@@ -18,9 +18,9 @@ class Cargo(models.Model):
     assigned_driver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_cargo')
     
     # Cargo details from frontend
-    pickup_location = models.CharField(max_length=255)
-    dropoff_location = models.CharField(max_length=255)
-    weight_kg = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.1)])
+    pickup_location = models.CharField(max_length=255, default='Unknown')
+    dropoff_location = models.CharField(max_length=255, default='Unknown')
+    weight_kg = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.1)], default=1.0)
     description = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     
