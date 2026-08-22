@@ -1,51 +1,185 @@
-<div class="container mx-auto px-4 sm:px-6 py-6">
-  <!-- Post Load Form (only visible to Cargo Owners) -->
-  <div *ngIf="userRole === 'cargo_owner'" class="mb-12">
-    <h1 class="text-3xl font-bold mb-6">Post a New Load</h1>
-    <form (ngSubmit)="onPostLoadSubmit()" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg mx-auto">
-      <div *ngIf="postMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-        {{ postMessage }}
+<div style="padding-top:64px; min-height:100vh; background:var(--color-surface-soft);">
+  <div class="cb-container" style="padding-top:48px; padding-bottom:96px;">
+
+    <!-- ══════════════════════════════════
+         POST LOAD FORM (Cargo Owners)
+    ══════════════════════════════════ -->
+    <div *ngIf="userRole === 'cargo_owner'" style="margin-bottom:64px;">
+
+      <h1 class="cb-display-lg" style="margin:0 0 8px 0;">Post a new load</h1>
+      <p class="cb-body" style="margin:0 0 40px 0;">Select your route and cargo details using the dropdowns below.</p>
+
+      <div class="cb-card" style="max-width:640px;">
+        <form (ngSubmit)="onPostLoadSubmit()" style="display:flex; flex-direction:column; gap:24px;">
+
+          <!-- Alerts -->
+          <div *ngIf="postMessage" class="cb-alert-success">✓ {{ postMessage }}</div>
+          <div *ngIf="postError" class="cb-alert-error">{{ postError }}</div>
+
+          <!-- PICKUP: Region → Town -->
+          <div>
+            <label class="cb-input-label">Pickup region</label>
+            <select class="cb-select" [(ngModel)]="pickupRegion" name="pickup_region" (change)="onPickupRegionChange()" required>
+              <option value="" disabled>Select region...</option>
+              <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
+            </select>
+          </div>
+
+          <div *ngIf="pickupTowns.length > 0">
+            <label class="cb-input-label">Pickup town / area</label>
+            <select class="cb-select" [(ngModel)]="loadDetails.pickup_location" name="pickup_location" required>
+              <option value="" disabled>Select town...</option>
+              <option *ngFor="let t of pickupTowns" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+
+          <!-- DROPOFF: Region → Town -->
+          <div>
+            <label class="cb-input-label">Dropoff region</label>
+            <select class="cb-select" [(ngModel)]="dropoffRegion" name="dropoff_region" (change)="onDropoffRegionChange()" required>
+              <option value="" disabled>Select region...</option>
+              <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
+            </select>
+          </div>
+
+          <div *ngIf="dropoffTowns.length > 0">
+            <label class="cb-input-label">Dropoff town / area</label>
+            <select class="cb-select" [(ngModel)]="loadDetails.dropoff_location" name="dropoff_location" required>
+              <option value="" disabled>Select town...</option>
+              <option *ngFor="let t of dropoffTowns" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+
+          <!-- Weight Range -->
+          <div>
+            <label class="cb-input-label">Cargo weight</label>
+            <select class="cb-select" [(ngModel)]="loadDetails.weight_kg" name="weight_kg" required>
+              <option [ngValue]="null" disabled>Select weight range...</option>
+              <option *ngFor="let w of weightRanges" [ngValue]="w.value">{{ w.label }}</option>
+            </select>
+          </div>
+
+          <!-- Cargo Type (Description) -->
+          <div>
+            <label class="cb-input-label">Cargo type</label>
+            <select class="cb-select" [(ngModel)]="loadDetails.description" name="description">
+              <option value="">Select cargo type...</option>
+              <option *ngFor="let t of cargoTypes" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="cb-btn-primary" style="width:100%; margin-top:4px;">
+            Post load
+          </button>
+
+        </form>
       </div>
-      <div *ngIf="postError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-        {{ postError }}
+    </div>
+
+    <!-- ══════════════════════════════════
+         AVAILABLE LOADS LIST
+    ══════════════════════════════════ -->
+    <div>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:32px; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h2 class="cb-display-lg" style="margin:0 0 4px 0;">Available loads</h2>
+          <p class="cb-body" style="margin:0;">
+            <span *ngIf="userRole === 'truck_owner'">Browse loads and place a bid.</span>
+            <span *ngIf="userRole === 'cargo_owner'">All currently listed shipments.</span>
+          </p>
+        </div>
+        <span class="cb-badge">{{ loads.length }} load{{ loads.length !== 1 ? 's' : '' }}</span>
       </div>
 
-      <div class="mb-4">
-        <label for="pickup" class="block text-gray-700 text-sm font-bold mb-2">Pickup Location</label>
-        <input type="text" id="pickup" [(ngModel)]="loadDetails.pickup_location" name="pickup_location" required class="shadow border rounded w-full py-2 px-3" />
-      </div>
-      <div class="mb-4">
-        <label for="dropoff" class="block text-gray-700 text-sm font-bold mb-2">Dropoff Location</label>
-        <input type="text" id="dropoff" [(ngModel)]="loadDetails.dropoff_location" name="dropoff_location" required class="shadow border rounded w-full py-2 px-3" />
-      </div>
-      <div class="mb-4">
-        <label for="weight" class="block text-gray-700 text-sm font-bold mb-2">Weight (kg)</label>
-        <input type="number" id="weight" [(ngModel)]="loadDetails.weight_kg" name="weight_kg" required class="shadow border rounded w-full py-2 px-3" />
-      </div>
-      <div class="mb-4">
-        <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description</label>
-        <textarea id="description" [(ngModel)]="loadDetails.description" name="description" rows="4" class="shadow border rounded w-full py-2 px-3"></textarea>
-      </div>
-      <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Post Load</button>
-    </form>
-  </div>
+      <!-- Loading / Error states -->
+      <div *ngIf="loadingLoads" style="text-align:center; padding:64px; color:var(--color-muted);">Loading loads...</div>
+      <div *ngIf="loadsError" class="cb-alert-error" style="max-width:500px;">{{ loadsError }}</div>
 
-  <!-- Available Loads List (for all authenticated users) -->
-  <div>
-    <h1 class="text-3xl font-bold mb-6">Available Loads</h1>
-    <div *ngIf="loadingLoads" class="text-center text-lg">Loading available loads...</div>
-    <div *ngIf="loadsError" class="text-center text-red-600 text-lg">{{ loadsError }}</div>
+      <!-- Empty state -->
+      <div *ngIf="!loadingLoads && !loadsError && loads.length === 0" class="cb-card" style="text-align:center; padding:64px; max-width:480px; margin:0 auto;">
+        <div style="font-size:40px; margin-bottom:16px;">📦</div>
+        <div class="cb-title-md" style="margin-bottom:8px;">No loads yet</div>
+        <p class="cb-body-sm" style="margin:0;">Be the first to post a shipment.</p>
+      </div>
 
-    <div *ngIf="!loadingLoads && !loadsError">
-      <div *ngIf="loads.length === 0" class="text-center text-gray-600 py-8">No loads available at this time.</div>
-      <div *ngIf="loads.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div *ngFor="let load of loads" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <h2 class="text-xl font-semibold mb-2">{{ load.pickup_location }} → {{ load.dropoff_location }}</h2>
-          <p class="text-gray-700 mb-1"><strong>Weight:</strong> {{ load.weight_kg }}kg</p>
-          <p class="text-gray-700 mb-4">{{ load.description }}</p>
-          <button *ngIf="userRole === 'truck_owner'" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Place Bid</button>
+      <!-- Loads Grid -->
+      <div *ngIf="!loadingLoads && loads.length > 0"
+           style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:24px;">
+        <div *ngFor="let load of loads" class="cb-card" style="display:flex; flex-direction:column; gap:0;">
+
+          <!-- Route header -->
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+            <div>
+              <div style="font-size:13px; color:var(--color-muted); margin-bottom:4px;">Route</div>
+              <div class="cb-title-md" style="color:var(--color-ink);">{{ load.pickup_location }}</div>
+              <div style="color:var(--color-primary); font-weight:600; font-size:13px; margin:2px 0;">↓</div>
+              <div class="cb-title-md" style="color:var(--color-ink);">{{ load.dropoff_location }}</div>
+            </div>
+            <span style="background:rgba(5,177,105,0.08); color:var(--color-up); font-size:12px; font-weight:600; padding:4px 12px; border-radius:var(--radius-pill); white-space:nowrap;">{{ load.status }}</span>
+          </div>
+
+          <hr class="cb-divider" style="margin-bottom:16px;">
+
+          <!-- Details -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
+            <div>
+              <div style="font-size:12px; color:var(--color-muted);">Weight</div>
+              <div class="cb-mono" style="font-size:16px; color:var(--color-ink);">{{ load.weight_kg }} kg</div>
+            </div>
+            <div *ngIf="load.description">
+              <div style="font-size:12px; color:var(--color-muted);">Type</div>
+              <div style="font-size:13px; color:var(--color-body);">{{ load.description | slice:0:35 }}{{ load.description.length > 35 ? '…' : '' }}</div>
+            </div>
+          </div>
+
+          <!-- Bid Button (Truck Owners only) -->
+          <button
+            *ngIf="userRole === 'truck_owner'"
+            (click)="onPlaceBid(load.id)"
+            class="cb-btn-primary"
+            style="width:100%;">
+            Place bid
+          </button>
         </div>
       </div>
     </div>
+
+    <!-- ══════════════════════════════════
+         BID MODAL / INLINE FORM
+    ══════════════════════════════════ -->
+    <div *ngIf="selectedLoadId" style="position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; display:flex; align-items:center; justify-content:center; padding:24px;">
+      <div class="cb-card" style="width:100%; max-width:440px;">
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+          <h3 class="cb-title-md">Place a bid</h3>
+          <button (click)="cancelBid()" style="background:none; border:none; cursor:pointer; color:var(--color-muted); font-size:20px; line-height:1;">✕</button>
+        </div>
+
+        <!-- Selected load summary -->
+        <div *ngIf="getSelectedLoad() as load" style="background:var(--color-surface-soft); border-radius:var(--radius-md); padding:16px; margin-bottom:24px;">
+          <div style="font-size:12px; color:var(--color-muted); margin-bottom:4px;">Shipment</div>
+          <div style="font-weight:600; color:var(--color-ink);">{{ load.pickup_location }} → {{ load.dropoff_location }}</div>
+          <div class="cb-mono" style="font-size:13px; color:var(--color-muted); margin-top:4px;">{{ load.weight_kg }} kg</div>
+        </div>
+
+        <div *ngIf="bidMessage" class="cb-alert-success" style="margin-bottom:16px;">✓ {{ bidMessage }}</div>
+        <div *ngIf="bidError" class="cb-alert-error" style="margin-bottom:16px;">{{ bidError }}</div>
+
+        <div style="margin-bottom:24px;">
+          <label class="cb-input-label">Your bid amount</label>
+          <select class="cb-select" [(ngModel)]="bidAmount" name="bidAmount">
+            <option [ngValue]="null" disabled>Select amount...</option>
+            <option *ngFor="let b of bidAmounts" [ngValue]="b.value">{{ b.label }}</option>
+          </select>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+          <button (click)="cancelBid()" class="cb-btn-secondary" style="flex:1;">Cancel</button>
+          <button (click)="onBidSubmit()" class="cb-btn-primary" style="flex:2;">Submit bid</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
