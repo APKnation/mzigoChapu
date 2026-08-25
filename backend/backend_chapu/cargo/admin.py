@@ -9,7 +9,13 @@ class CargoAdmin(admin.ModelAdmin):
     search_fields = ('pickup_location', 'dropoff_location', 'owner__username')
     list_per_page = 20
     ordering = ('-created_at',)
-    readonly_fields = ('created_at', 'updated_at', 'owner')
+    readonly_fields = ('created_at', 'updated_at')
+
+    def get_readonly_fields(self, request, obj=None):
+        # owner is editable on creation but locked once saved
+        if obj:
+            return self.readonly_fields + ('owner',)
+        return self.readonly_fields
 
     fieldsets = (
         ('Route', {
@@ -35,7 +41,13 @@ class TruckAdmin(admin.ModelAdmin):
     search_fields = ('vehicle_type', 'current_location', 'owner__username')
     list_per_page = 20
     ordering = ('-created_at',)
-    readonly_fields = ('created_at', 'updated_at', 'owner')
+    readonly_fields = ('created_at', 'updated_at')
+
+    def get_readonly_fields(self, request, obj=None):
+        # owner is editable on creation but locked once saved
+        if obj:
+            return self.readonly_fields + ('owner',)
+        return self.readonly_fields
 
     fieldsets = (
         ('Vehicle Info', {
@@ -43,6 +55,10 @@ class TruckAdmin(admin.ModelAdmin):
         }),
         ('Ownership', {
             'fields': ('owner',)
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
         }),
     )
 
@@ -54,7 +70,13 @@ class BidAdmin(admin.ModelAdmin):
     search_fields = ('bidder__username', 'cargo__pickup_location')
     list_per_page = 20
     ordering = ('-created_at',)
-    readonly_fields = ('created_at', 'bidder', 'cargo')
+    readonly_fields = ('created_at',)
+
+    def get_readonly_fields(self, request, obj=None):
+        # bidder and cargo are editable on creation but locked once saved
+        if obj:
+            return self.readonly_fields + ('bidder', 'cargo')
+        return self.readonly_fields
 
     fieldsets = (
         ('Bid Info', {
@@ -62,5 +84,9 @@ class BidAdmin(admin.ModelAdmin):
         }),
         ('Message', {
             'fields': ('message',)
+        }),
+        ('Timestamps', {
+            'fields': ('created_at',),
+            'classes': ('collapse',)
         }),
     )

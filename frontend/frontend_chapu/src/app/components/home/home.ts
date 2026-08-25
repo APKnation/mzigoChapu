@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
@@ -28,9 +28,15 @@ interface PublicTruck {
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
-export class Home implements OnInit {
+export class Home implements OnInit, OnDestroy {
   userRole: string | null = null;
   username: string | null = null;
+
+  // Hero carousel
+  heroImages: string[] = ['/image11.png', '/image12.png', '/image13.png'];
+  currentHeroImage: string = this.heroImages[0];
+  heroImageIndex: number = 0;
+  private carouselInterval: any;
 
   // Public data
   publicLoads: PublicLoad[] = [];
@@ -43,13 +49,27 @@ export class Home implements OnInit {
     this.userRole = localStorage.getItem('userRole');
     this.username = localStorage.getItem('username');
     this.fetchPublicData();
+    this.startCarousel();
+  }
+
+  ngOnDestroy(): void {
+    if (this.carouselInterval) {
+      clearInterval(this.carouselInterval);
+    }
+  }
+
+  startCarousel(): void {
+    this.carouselInterval = setInterval(() => {
+      this.heroImageIndex = (this.heroImageIndex + 1) % this.heroImages.length;
+      this.currentHeroImage = this.heroImages[this.heroImageIndex];
+    }, 2000);
   }
 
   async fetchPublicData(): Promise<void> {
     try {
       const [loadsRes, trucksRes] = await Promise.all([
-        fetch('http://localhost:8000/api/loads/public/loads/'),
-        fetch('http://localhost:8000/api/loads/public/trucks/')
+        fetch('/api/loads/public/loads/'),
+        fetch('/api/loads/public/trucks/')
       ]);
       this.publicLoads = loadsRes.ok ? await loadsRes.json() : [];
       this.publicTrucks = trucksRes.ok ? await trucksRes.json() : [];

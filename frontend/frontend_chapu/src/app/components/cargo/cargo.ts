@@ -138,7 +138,7 @@ export class Cargo implements OnInit {
       return;
     }
     try {
-      const res = await fetch('http://localhost:8000/api/loads/', {
+      const res = await fetch('/api/loads/', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!res.ok) throw new Error('Failed');
@@ -161,7 +161,7 @@ export class Cargo implements OnInit {
       return;
     }
     try {
-      const res = await fetch('http://localhost:8000/api/loads/', {
+      const res = await fetch('/api/loads/', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(this.loadDetails)
@@ -193,7 +193,7 @@ export class Cargo implements OnInit {
     if (!token) { this.bidError = 'Please log in first.'; return; }
     if (!this.selectedLoadId || !this.bidAmount) { this.bidError = 'Select a load and bid amount.'; return; }
     try {
-      const res = await fetch(`http://localhost:8000/api/loads/${this.selectedLoadId}/bid/`, {
+      const res = await fetch(`/api/loads/${this.selectedLoadId}/bid/`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: this.bidAmount })

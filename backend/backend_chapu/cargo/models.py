@@ -50,7 +50,7 @@ class Bid(models.Model):
         unique_together = ['cargo', 'bidder']  # One bid per user per cargo
     
     def __str__(self):
-        return f"Bid of {self.amount} TZS on {self.cargo.title} by {self.bidder.username}"
+        return f"Bid of {self.amount} TZS on [{self.cargo.pickup_location} → {self.cargo.dropoff_location}] by {self.bidder.username}"
 
 # Truck model for truck owners to list their available vehicles
 class Truck(models.Model):

@@ -177,9 +177,18 @@
             <a routerLink="/login" class="cb-btn-outline-dark" style="height:56px; padding:16px 32px; font-size:16px;">Sign in</a>
           </div>
         </div>
-        <!-- Floating product card mockup -->
-        <div style="position:relative; height:420px; display:flex; align-items:center; justify-content:center;">
-          <div class="cb-card-dark" style="width:340px; position:relative; z-index:2; padding:24px;">
+        <!-- Floating product card mockup with slideshow -->
+        <div style="position:relative; height:420px; display:flex; align-items:center; justify-content:center; border-radius:24px; overflow:hidden;">
+          <!-- Slideshow Images -->
+          <ng-container *ngFor="let img of heroImages; let i = index">
+            <img [src]="img" alt="Hero" 
+                 [style.opacity]="heroImageIndex === i ? 1 : 0"
+                 style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; transition:opacity 0.8s ease-in-out; z-index:0;">
+          </ng-container>
+          <!-- Gradient Overlay -->
+          <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, rgba(10,12,16,0.6) 0%, rgba(10,12,16,0.2) 100%); z-index:1;"></div>
+
+          <div class="cb-card-dark" style="width:340px; position:relative; z-index:2; padding:24px; background:rgba(20,24,32,0.85); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08);">
             <div style="font-size:11px; color:var(--color-on-dark-soft); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Available Loads</div>
             <div *ngFor="let load of publicLoads | slice:0:3" style="padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center;">
               <div>
@@ -190,7 +199,7 @@
             </div>
             <div *ngIf="publicLoads.length === 0" style="color:var(--color-on-dark-soft); font-size:13px; padding:16px 0;">No loads yet — be the first to post!</div>
           </div>
-          <div class="cb-card-dark" style="width:280px; position:absolute; bottom:0; right:0; z-index:1; padding:20px; transform:rotate(2deg); opacity:0.7;">
+          <div class="cb-card-dark" style="width:280px; position:absolute; bottom:0; right:0; z-index:2; padding:20px; transform:rotate(2deg); opacity:0.9; background:rgba(20,24,32,0.85); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08);">
             <div style="font-size:11px; color:var(--color-on-dark-soft); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Available Trucks</div>
             <div *ngFor="let truck of publicTrucks | slice:0:2" style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
               <div style="color:var(--color-on-dark); font-size:13px;">{{ truck.vehicle_type }}</div>
@@ -241,20 +250,26 @@
     <div class="cb-container">
       <h2 class="cb-display-lg" style="margin:0 0 48px 0;">Why mzigoChapU?</h2>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px;">
-        <div class="cb-card">
-          <div style="font-size:28px; margin-bottom:16px;">🚛</div>
-          <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Wide network</div>
-          <p class="cb-body-sm" style="margin:0;">Thousands of verified drivers across all regions of Tanzania.</p>
+        <div class="cb-card" style="padding:0; overflow:hidden;">
+          <img src="/image11.png" alt="Wide network" style="width:100%; height:200px; object-fit:cover; display:block;">
+          <div style="padding:24px;">
+            <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Wide network</div>
+            <p class="cb-body-sm" style="margin:0;">Thousands of verified drivers across all regions of Tanzania.</p>
+          </div>
         </div>
-        <div class="cb-card">
-          <div style="font-size:28px; margin-bottom:16px;">🔒</div>
-          <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Secure payments</div>
-          <p class="cb-body-sm" style="margin:0;">Escrow-protected payments via Tanzanian mobile money platforms.</p>
+        <div class="cb-card" style="padding:0; overflow:hidden;">
+          <img src="/image12.png" alt="Secure payments" style="width:100%; height:200px; object-fit:cover; display:block;">
+          <div style="padding:24px;">
+            <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Secure payments</div>
+            <p class="cb-body-sm" style="margin:0;">Escrow-protected payments via Tanzanian mobile money platforms.</p>
+          </div>
         </div>
-        <div class="cb-card">
-          <div style="font-size:28px; margin-bottom:16px;">📍</div>
-          <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Real-time tracking</div>
-          <p class="cb-body-sm" style="margin:0;">Track your cargo with GPS technology — know where it is at all times.</p>
+        <div class="cb-card" style="padding:0; overflow:hidden;">
+          <img src="/image13.png" alt="Real-time tracking" style="width:100%; height:200px; object-fit:cover; display:block;">
+          <div style="padding:24px;">
+            <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Real-time tracking</div>
+            <p class="cb-body-sm" style="margin:0;">Track your cargo with GPS technology — know where it is at all times.</p>
+          </div>
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ export class Register {
         user_role: this.registerData.user_role
       };
       
-      const response = await fetch('http://localhost:8000/api/auth/register/', {
+      const response = await fetch('/api/auth/register/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

@@ -35,7 +35,7 @@ export class Login {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/auth/token/', {
+      const response = await fetch('/api/auth/token/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
