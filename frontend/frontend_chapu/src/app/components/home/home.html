@@ -1,19 +1,77 @@
 <!-- ═══════════════════════════════════════════
      SHARED TOP NAV
 ═══════════════════════════════════════════ -->
-<nav class="cb-nav" [class.cb-nav-dark]="!userRole" [style.background]="userRole ? 'var(--color-canvas)' : 'var(--color-surface-dark)'">
-  <a routerLink="/" style="text-decoration:none;">
-    <span [style.color]="userRole ? 'var(--color-primary)' : 'var(--color-primary)'" style="font-size:18px; font-weight:600; font-family:var(--font-display);">mzigoChapU</span>
+<nav class="cb-nav flex items-center justify-between px-5 py-4 md:px-8" [class.cb-nav-dark]="!userRole"
+  [style.background]="userRole ? 'var(--color-canvas)' : 'var(--color-surface-dark)'">
+  <!-- Logo -->
+  <a routerLink="/" class="flex items-center gap-2 no-underline transition-transform duration-200 hover:scale-[1.02]">
+    <div class="flex h-9 w-9 items-center justify-center rounded-xl font-bold text-white shadow-md"
+      style="background: var(--color-primary);">
+      M
+    </div>
+
+    <span class="text-lg font-bold tracking-tight" style="
+        color: var(--color-primary);
+        font-family: var(--font-display);
+      ">
+      mzigoChapU
+    </span>
   </a>
-  <div style="display:flex; align-items:center; gap:12px;">
+
+  <!-- Right Side -->
+  <div class="flex items-center gap-2 md:gap-3">
+
+    <!-- Guest -->
     <ng-container *ngIf="!userRole">
-      <a routerLink="/login" class="cb-btn-secondary" style="height:36px; padding:8px 16px; font-size:14px;">Sign in</a>
-      <a routerLink="/register" class="cb-btn-primary" style="height:36px; padding:8px 16px; font-size:14px;">Get started</a>
+
+      <a routerLink="/login"
+        class="rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-[1px]" style="
+          color: var(--color-primary);
+          border: 1px solid var(--color-primary);
+        ">
+        Sign in
+      </a>
+
+      <a routerLink="/register"
+        class="rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-[1px] hover:shadow-md"
+        style="background: var(--color-primary);">
+        Get started
+      </a>
+
     </ng-container>
+
+    <!-- Logged In -->
     <ng-container *ngIf="userRole">
-      <span class="cb-badge">{{ getRoleDisplay() }}</span>
-      <button (click)="logout()" class="cb-btn-secondary" style="height:36px; padding:8px 16px; font-size:14px;">Sign out</button>
+
+      <!-- Role -->
+      <span class="hidden rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wide sm:inline-flex" style="
+          color: var(--color-primary);
+          background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+          border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+        ">
+        {{ getRoleDisplay() }}
+      </span>
+
+      <!-- Mobile Role -->
+      <span class="flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold sm:hidden" style="
+          color: var(--color-primary);
+          background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+        ">
+        {{ getRoleDisplay().charAt(0) }}
+      </span>
+
+      <!-- Logout -->
+      <button (click)="logout()" type="button"
+        class="rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-[1px]" style="
+          color: var(--color-primary);
+          border: 1px solid var(--color-primary);
+          background: transparent;
+        ">
+        Sign out
+      </button>
+
     </ng-container>
+
   </div>
 </nav>
 
@@ -24,17 +82,23 @@
   <!-- Dark Hero Band -->
   <section class="cb-band-dark">
     <div class="cb-container">
-      <span class="cb-badge" style="background:rgba(0,82,255,0.15); color:var(--color-primary); margin-bottom:24px; display:inline-block;">Super Admin</span>
+      <span class="cb-badge"
+        style="background:rgba(0,82,255,0.15); color:var(--color-primary); margin-bottom:24px; display:inline-block;">Super
+        Admin</span>
       <h1 class="cb-display-xl" style="color:var(--color-on-dark); margin:0 0 16px 0;">Platform Control Center</h1>
-      <p class="cb-body" style="color:var(--color-on-dark-soft); max-width:540px; margin:0 0 40px 0;">Full operational control over the mzigoChapU freight network. Monitor activity, manage users, and access the admin panel.</p>
+      <p class="cb-body" style="color:var(--color-on-dark-soft); max-width:540px; margin:0 0 40px 0;">Full operational
+        control over the mzigoChapU freight network. Monitor activity, manage users, and access the admin panel.</p>
       <!-- Live stats -->
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:1px; background:rgba(255,255,255,0.08); border-radius:var(--radius-xl); overflow:hidden; max-width:700px;">
+      <div
+        style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:1px; background:rgba(255,255,255,0.08); border-radius:var(--radius-xl); overflow:hidden; max-width:700px;">
         <div style="background:var(--color-surface-dark-elevated); padding:28px 24px;">
-          <div class="cb-mono" style="color:var(--color-on-dark); font-size:36px; font-weight:400;">{{ publicLoads.length }}</div>
+          <div class="cb-mono" style="color:var(--color-on-dark); font-size:36px; font-weight:400;">{{
+            publicLoads.length }}</div>
           <div style="color:var(--color-on-dark-soft); font-size:13px; margin-top:4px;">Active loads</div>
         </div>
         <div style="background:var(--color-surface-dark-elevated); padding:28px 24px;">
-          <div class="cb-mono" style="color:var(--color-on-dark); font-size:36px; font-weight:400;">{{ publicTrucks.length }}</div>
+          <div class="cb-mono" style="color:var(--color-on-dark); font-size:36px; font-weight:400;">{{
+            publicTrucks.length }}</div>
           <div style="color:var(--color-on-dark-soft); font-size:13px; margin-top:4px;">Available trucks</div>
         </div>
         <div style="background:var(--color-surface-dark-elevated); padding:28px 24px;">
@@ -54,10 +118,12 @@
     <div class="cb-container">
       <h2 class="cb-display-lg" style="margin:0 0 48px 0;">Admin tools</h2>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px;">
-        <a href="http://localhost:8000/admin/" target="_blank" class="cb-card" style="text-decoration:none; cursor:pointer; display:block; transition:box-shadow 0.2s;">
+        <a href="http://localhost:8000/admin/" target="_blank" class="cb-card"
+          style="text-decoration:none; cursor:pointer; display:block; transition:box-shadow 0.2s;">
           <div style="font-size:28px; margin-bottom:16px;">🛡️</div>
           <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Django Admin Panel</div>
-          <p class="cb-body-sm" style="margin:0 0 20px 0;">Full database access — manage users, cargo, trucks and bids.</p>
+          <p class="cb-body-sm" style="margin:0 0 20px 0;">Full database access — manage users, cargo, trucks and bids.
+          </p>
           <span style="color:var(--color-primary); font-size:14px; font-weight:600;">Open Admin →</span>
         </a>
         <div class="cb-card">
@@ -91,9 +157,12 @@
     <div class="cb-container">
       <span class="cb-badge" style="margin-bottom:24px; display:inline-block;">Cargo Owner</span>
       <h1 class="cb-display-xl" style="margin:0 0 16px 0;">Your dashboard</h1>
-      <p class="cb-body" style="max-width:540px; margin:0 0 48px 0;">Post shipments and connect with verified truck drivers across Tanzania.</p>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:24px; margin-bottom:64px;">
-        <a routerLink="/cargo" class="cb-card" style="text-decoration:none; display:block; border:2px solid var(--color-primary);">
+      <p class="cb-body" style="max-width:540px; margin:0 0 48px 0;">Post shipments and connect with verified truck
+        drivers across Tanzania.</p>
+      <div
+        style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:24px; margin-bottom:64px;">
+        <a routerLink="/cargo" class="cb-card"
+          style="text-decoration:none; display:block; border:2px solid var(--color-primary);">
           <div style="font-size:28px; margin-bottom:16px;">📦</div>
           <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Post a new load</div>
           <p class="cb-body-sm" style="margin:0 0 20px 0;">Create a shipment listing for your cargo.</p>
@@ -102,13 +171,16 @@
         <div class="cb-card">
           <div style="font-size:28px; margin-bottom:16px;">📋</div>
           <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Active loads</div>
-          <div class="cb-mono" style="font-size:36px; color:var(--color-primary); margin:8px 0;">{{ publicLoads.length }}</div>
+          <div class="cb-mono" style="font-size:36px; color:var(--color-primary); margin:8px 0;">{{ publicLoads.length
+            }}</div>
           <p class="cb-body-sm" style="margin:0;">Pending bids on the platform</p>
         </div>
         <div class="cb-card">
           <div style="font-size:28px; margin-bottom:16px;">🚛</div>
-          <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Available drivers</div>
-          <div class="cb-mono" style="font-size:36px; color:var(--color-up); margin:8px 0;">{{ publicTrucks.length }}</div>
+          <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8EnglishKiswahili
+LoginRegisterpx;">Available drivers</div>
+          <div class="cb-mono" style="font-size:36px; color:var(--color-up); margin:8px 0;">{{ publicTrucks.length }}
+          </div>
           <p class="cb-body-sm" style="margin:0;">Trucks ready to carry your cargo</p>
         </div>
       </div>
@@ -125,9 +197,12 @@
     <div class="cb-container">
       <span class="cb-badge" style="margin-bottom:24px; display:inline-block;">Truck Owner</span>
       <h1 class="cb-display-xl" style="margin:0 0 16px 0;">Your dashboard</h1>
-      <p class="cb-body" style="max-width:540px; margin:0 0 48px 0;">Browse available loads and manage your trips across Tanzania.</p>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:24px; margin-bottom:64px;">
-        <a routerLink="/cargo" class="cb-card" style="text-decoration:none; display:block; border:2px solid var(--color-primary);">
+      <p class="cb-body" style="max-width:540px; margin:0 0 48px 0;">Browse available loads and manage your trips across
+        Tanzania.</p>
+      <div
+        style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:24px; margin-bottom:64px;">
+        <a routerLink="/cargo" class="cb-card"
+          style="text-decoration:none; display:block; border:2px solid var(--color-primary);">
           <div style="font-size:28px; margin-bottom:16px;">🔍</div>
           <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Browse loads</div>
           <p class="cb-body-sm" style="margin:0 0 20px 0;">Find shipments that match your route.</p>
@@ -136,13 +211,15 @@
         <div class="cb-card">
           <div style="font-size:28px; margin-bottom:16px;">📦</div>
           <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Open loads</div>
-          <div class="cb-mono" style="font-size:36px; color:var(--color-primary); margin:8px 0;">{{ publicLoads.length }}</div>
+          <div class="cb-mono" style="font-size:36px; color:var(--color-primary); margin:8px 0;">{{ publicLoads.length
+            }}</div>
           <p class="cb-body-sm" style="margin:0;">Waiting for a driver like you</p>
         </div>
         <div class="cb-card">
           <div style="font-size:28px; margin-bottom:16px;">📍</div>
           <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">My listed trucks</div>
-          <div class="cb-mono" style="font-size:36px; color:var(--color-up); margin:8px 0;">{{ publicTrucks.length }}</div>
+          <div class="cb-mono" style="font-size:36px; color:var(--color-up); margin:8px 0;">{{ publicTrucks.length }}
+          </div>
           <p class="cb-body-sm" style="margin:0;">Vehicles on the platform</p>
         </div>
       </div>
@@ -156,61 +233,87 @@
 ═══════════════════════════════════════════ -->
 <div *ngIf="!userRole">
 
-  <!-- Dark Hero Band -->
-  <section class="cb-band-dark" style="padding-top:160px; padding-bottom:96px; min-height:100vh; display:flex; align-items:center;">
-    <div class="cb-container" style="width:100%;">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;">
-        <div>
-          <span class="cb-badge" style="background:rgba(0,82,255,0.15); color:var(--color-primary); margin-bottom:32px; display:inline-flex; align-items:center; gap:6px;">
-            <span style="width:6px; height:6px; border-radius:50%; background:var(--color-up); display:inline-block;"></span>
-            Tanzania's Live Freight Network
-          </span>
-          <h1 class="cb-display-mega" style="color:var(--color-on-dark); margin:0 0 24px 0;">
-            Move cargo.<br>Build routes.<br>
-            <span style="color:var(--color-primary);">Get paid.</span>
-          </h1>
-          <p class="cb-body" style="color:var(--color-on-dark-soft); max-width:440px; font-size:18px; margin:0 0 40px 0;">
-            mzigoChapU connects cargo owners with verified truck drivers across all 30 regions of Tanzania — fast, transparent, and secure.
-          </p>
-          <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a routerLink="/register" class="cb-btn-primary cb-btn-primary-lg">Get started free</a>
-            <a routerLink="/login" class="cb-btn-outline-dark" style="height:56px; padding:16px 32px; font-size:16px;">Sign in</a>
-          </div>
-        </div>
-        <!-- Floating product card mockup with slideshow -->
-        <div style="position:relative; height:420px; display:flex; align-items:center; justify-content:center; border-radius:24px; overflow:hidden;">
-          <!-- Slideshow Images -->
-          <ng-container *ngFor="let img of heroImages; let i = index">
-            <img [src]="img" alt="Hero" 
-                 [style.opacity]="heroImageIndex === i ? 1 : 0"
-                 style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; transition:opacity 0.8s ease-in-out; z-index:0;">
-          </ng-container>
-          <!-- Gradient Overlay -->
-          <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, rgba(10,12,16,0.6) 0%, rgba(10,12,16,0.2) 100%); z-index:1;"></div>
+  <!-- ═══ HERO SECTION ══════════════════════════════ -->
+  <section class="hero-section">
+    <div class="cb-container" style="width:100%; position:relative; z-index:2;">
+      <div class="hero-grid">
 
-          <div class="cb-card-dark" style="width:340px; position:relative; z-index:2; padding:24px; background:rgba(20,24,32,0.85); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08);">
-            <div style="font-size:11px; color:var(--color-on-dark-soft); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Available Loads</div>
-            <div *ngFor="let load of publicLoads | slice:0:3" style="padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <div style="color:var(--color-on-dark); font-size:14px; font-weight:500;">{{ load.pickup_location }} → {{ load.dropoff_location }}</div>
-                <div style="color:var(--color-on-dark-soft); font-size:12px; margin-top:2px;">{{ load.weight_kg }} kg</div>
-              </div>
-              <span style="background:rgba(5,177,105,0.15); color:var(--color-up); font-size:11px; font-weight:600; padding:3px 10px; border-radius:var(--radius-pill);">Open</span>
-            </div>
-            <div *ngIf="publicLoads.length === 0" style="color:var(--color-on-dark-soft); font-size:13px; padding:16px 0;">No loads yet — be the first to post!</div>
-          </div>
-          <div class="cb-card-dark" style="width:280px; position:absolute; bottom:0; right:0; z-index:2; padding:20px; transform:rotate(2deg); opacity:0.9; background:rgba(20,24,32,0.85); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08);">
-            <div style="font-size:11px; color:var(--color-on-dark-soft); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Available Trucks</div>
-            <div *ngFor="let truck of publicTrucks | slice:0:2" style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-              <div style="color:var(--color-on-dark); font-size:13px;">{{ truck.vehicle_type }}</div>
-              <div style="color:var(--color-on-dark-soft); font-size:11px;">{{ truck.capacity_kg }} kg · {{ truck.current_location }}</div>
-            </div>
-            <div *ngIf="publicTrucks.length === 0" style="color:var(--color-on-dark-soft); font-size:13px;">Register a truck to list it here</div>
+        <!-- ── LEFT: Text ──────────────────────────── -->
+        <div class="hero-text">
+
+
+          <h1 class="hero-title">
+            Ship Cargo.<br>
+            Find Drivers.<br>
+            <span class="accent">Earn More.</span>
+          </h1>
+
+          <p class="hero-sub">
+            mzigoChapU is Tanzania's real-time freight marketplace — connecting verified cargo owners with trusted truck
+            drivers across all 30 regions. No middlemen, no delays, just seamless logistics.
+          </p>
+
+
+
+          <div class="hero-ctas">
+            <a routerLink="/register" class="hero-btn-primary">
+              🚀 Get started free
+            </a>
+            <a routerLink="/login" class="hero-btn-ghost">
+              Sign in →
+            </a>
           </div>
         </div>
+
+        <!-- ── RIGHT: Floating images ──────────────── -->
+        <div class="hero-visual">
+          <!-- Dot grid decoration -->
+          <div class="hero-dots"></div>
+          <!-- Glow ring -->
+          <div class="hero-glow-ring"></div>
+
+          <!-- Main image — cycles every 2s -->
+          <ng-container *ngFor="let img of heroImages; let i = index">
+            <img [src]="img" alt="Freight in Tanzania" class="hero-img-main"
+              [style.opacity]="heroImageIndex === i ? 1 : 0" [style.position]="'absolute'"
+              [style.zIndex]="heroImageIndex === i ? 2 : 1">
+          </ng-container>
+
+          <!-- Secondary image (next in cycle) -->
+          <ng-container *ngFor="let img of heroImages; let i = index">
+            <img [src]="img" alt="Cargo network" class="hero-img-secondary"
+              [style.opacity]="((heroImageIndex + 1) % heroImages.length) === i ? 1 : 0">
+          </ng-container>
+
+          <!-- Tertiary image (previous in cycle) -->
+          <ng-container *ngFor="let img of heroImages; let i = index">
+            <img [src]="img" alt="Truck drivers" class="hero-img-tertiary"
+              [style.opacity]="((heroImageIndex + 2) % heroImages.length) === i ? 1 : 0">
+          </ng-container>
+
+          <!-- Floating tag — Active loads -->
+          <div class="hero-tag tag-loads">
+            <span class="tag-dot" style="background:#4d88ff;"></span>
+            {{ publicLoads.length }} Active Loads
+          </div>
+
+          <!-- Floating tag — Available trucks -->
+          <div class="hero-tag tag-trucks">
+            <span class="tag-dot" style="background:#05b169;"></span>
+            {{ publicTrucks.length }} Trucks Ready
+          </div>
+        </div>
+
       </div>
     </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      Scroll
+    </div>
   </section>
+
 
   <!-- Stats Band - Soft -->
   <section class="cb-band-soft" style="padding:64px 48px;">
@@ -240,7 +343,8 @@
   <section class="cb-band-light">
     <div class="cb-container">
       <h2 class="cb-display-lg" style="margin:0 0 12px 0;">Live platform data</h2>
-      <p class="cb-body" style="margin:0 0 48px 0;">Available cargo and trucks right now — no account needed to browse.</p>
+      <p class="cb-body" style="margin:0 0 48px 0;">Available cargo and trucks right now — no account needed to browse.
+      </p>
       <ng-container *ngTemplateOutlet="liveGrid"></ng-container>
     </div>
   </section>
@@ -258,17 +362,20 @@
           </div>
         </div>
         <div class="cb-card" style="padding:0; overflow:hidden;">
-          <img src="/image12.png" alt="Secure payments" style="width:100%; height:200px; object-fit:cover; display:block;">
+          <img src="/image12.png" alt="Secure payments"
+            style="width:100%; height:200px; object-fit:cover; display:block;">
           <div style="padding:24px;">
             <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Secure payments</div>
             <p class="cb-body-sm" style="margin:0;">Escrow-protected payments via Tanzanian mobile money platforms.</p>
           </div>
         </div>
         <div class="cb-card" style="padding:0; overflow:hidden;">
-          <img src="/image13.png" alt="Real-time tracking" style="width:100%; height:200px; object-fit:cover; display:block;">
+          <img src="/image13.png" alt="Real-time tracking"
+            style="width:100%; height:200px; object-fit:cover; display:block;">
           <div style="padding:24px;">
             <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Real-time tracking</div>
-            <p class="cb-body-sm" style="margin:0;">Track your cargo with GPS technology — know where it is at all times.</p>
+            <p class="cb-body-sm" style="margin:0;">Track your cargo with GPS technology — know where it is at all
+              times.</p>
           </div>
         </div>
       </div>
@@ -279,17 +386,21 @@
   <section class="cb-band-dark" style="text-align:center;">
     <div class="cb-container">
       <h2 class="cb-display-lg" style="color:var(--color-on-dark); margin:0 0 16px 0;">Ready to get started?</h2>
-      <p class="cb-body" style="color:var(--color-on-dark-soft); margin:0 0 40px 0; max-width:500px; display:inline-block;">Join thousands of cargo owners and truck drivers already on the platform.</p>
+      <p class="cb-body"
+        style="color:var(--color-on-dark-soft); margin:0 0 40px 0; max-width:500px; display:inline-block;">Join
+        thousands of cargo owners and truck drivers already on the platform.</p>
       <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
         <a routerLink="/register" class="cb-btn-primary cb-btn-primary-lg">Create free account</a>
-        <a routerLink="/login" class="cb-btn-outline-dark" style="height:56px; padding:16px 32px; font-size:16px;">Sign in</a>
+        <a routerLink="/login" class="cb-btn-outline-dark" style="height:56px; padding:16px 32px; font-size:16px;">Sign
+          in</a>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer style="background:var(--color-canvas); padding:48px; border-top:1px solid var(--color-hairline);">
-    <div class="cb-container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+    <div class="cb-container"
+      style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
       <span style="color:var(--color-primary); font-weight:600; font-size:16px;">mzigoChapU</span>
       <p class="cb-body-sm" style="margin:0;">© 2026 mzigoChapU. All rights reserved. Made in Tanzania 🇹🇿</p>
     </div>
@@ -304,41 +415,58 @@
 
     <!-- Cargo Panel -->
     <div class="cb-card" style="padding:0; overflow:hidden;">
-      <div style="padding:24px 28px; border-bottom:1px solid var(--color-hairline); display:flex; justify-content:space-between; align-items:center;">
+      <div
+        style="padding:24px 28px; border-bottom:1px solid var(--color-hairline); display:flex; justify-content:space-between; align-items:center;">
         <div class="cb-title-md">Available cargo</div>
         <span class="cb-badge">{{ publicLoads.length }} active</span>
       </div>
       <div *ngIf="loadingData" style="padding:40px; text-align:center; color:var(--color-muted);">Loading...</div>
-      <div *ngIf="!loadingData && publicLoads.length === 0" style="padding:40px; text-align:center; color:var(--color-muted);">
+      <div *ngIf="!loadingData && publicLoads.length === 0"
+        style="padding:40px; text-align:center; color:var(--color-muted);">
         <p style="margin:0 0 8px 0; font-weight:600;">No active loads</p>
         <p class="cb-body-sm" style="margin:0;">Be the first to post a load.</p>
       </div>
-      <div *ngFor="let load of publicLoads" style="padding:16px 28px; border-bottom:1px solid var(--color-hairline-soft); display:flex; align-items:center; justify-content:space-between; transition:background 0.15s;" onmouseover="this.style.background='var(--color-surface-soft)'" onmouseout="this.style.background='transparent'">
+      <div *ngFor="let load of publicLoads"
+        style="padding:16px 28px; border-bottom:1px solid var(--color-hairline-soft); display:flex; align-items:center; justify-content:space-between; transition:background 0.15s;"
+        onmouseover="this.style.background='var(--color-surface-soft)'"
+        onmouseout="this.style.background='transparent'">
         <div>
-          <div style="font-size:15px; font-weight:500; color:var(--color-ink);">{{ load.pickup_location }} → {{ load.dropoff_location }}</div>
-          <div style="font-size:13px; color:var(--color-muted); margin-top:2px;">⚖️ <span class="cb-mono" style="font-size:13px;">{{ load.weight_kg }}</span> kg{{ load.description ? ' · ' + (load.description | slice:0:40) : '' }}</div>
+          <div style="font-size:15px; font-weight:500; color:var(--color-ink);">{{ load.pickup_location }} → {{
+            load.dropoff_location }}</div>
+          <div style="font-size:13px; color:var(--color-muted); margin-top:2px;">⚖️ <span class="cb-mono"
+              style="font-size:13px;">{{ load.weight_kg }}</span> kg{{ load.description ? ' · ' + (load.description |
+            slice:0:40) : '' }}</div>
         </div>
-        <span style="background:rgba(5,177,105,0.08); color:var(--color-up); font-size:12px; font-weight:600; padding:4px 12px; border-radius:var(--radius-pill); white-space:nowrap;">{{ load.status }}</span>
+        <span
+          style="background:rgba(5,177,105,0.08); color:var(--color-up); font-size:12px; font-weight:600; padding:4px 12px; border-radius:var(--radius-pill); white-space:nowrap;">{{
+          load.status }}</span>
       </div>
     </div>
 
     <!-- Trucks Panel -->
     <div class="cb-card" style="padding:0; overflow:hidden;">
-      <div style="padding:24px 28px; border-bottom:1px solid var(--color-hairline); display:flex; justify-content:space-between; align-items:center;">
+      <div
+        style="padding:24px 28px; border-bottom:1px solid var(--color-hairline); display:flex; justify-content:space-between; align-items:center;">
         <div class="cb-title-md">Available trucks</div>
         <span class="cb-badge">{{ publicTrucks.length }} ready</span>
       </div>
       <div *ngIf="loadingData" style="padding:40px; text-align:center; color:var(--color-muted);">Loading...</div>
-      <div *ngIf="!loadingData && publicTrucks.length === 0" style="padding:40px; text-align:center; color:var(--color-muted);">
+      <div *ngIf="!loadingData && publicTrucks.length === 0"
+        style="padding:40px; text-align:center; color:var(--color-muted);">
         <p style="margin:0 0 8px 0; font-weight:600;">No trucks listed</p>
         <p class="cb-body-sm" style="margin:0;">Truck owners can list their vehicles here.</p>
       </div>
-      <div *ngFor="let truck of publicTrucks" style="padding:16px 28px; border-bottom:1px solid var(--color-hairline-soft); display:flex; align-items:center; justify-content:space-between; transition:background 0.15s;" onmouseover="this.style.background='var(--color-surface-soft)'" onmouseout="this.style.background='transparent'">
+      <div *ngFor="let truck of publicTrucks"
+        style="padding:16px 28px; border-bottom:1px solid var(--color-hairline-soft); display:flex; align-items:center; justify-content:space-between; transition:background 0.15s;"
+        onmouseover="this.style.background='var(--color-surface-soft)'"
+        onmouseout="this.style.background='transparent'">
         <div>
           <div style="font-size:15px; font-weight:500; color:var(--color-ink);">{{ truck.vehicle_type }}</div>
-          <div style="font-size:13px; color:var(--color-muted); margin-top:2px;">⚖️ <span class="cb-mono" style="font-size:13px;">{{ truck.capacity_kg }}</span> kg · 📍 {{ truck.current_location }}</div>
+          <div style="font-size:13px; color:var(--color-muted); margin-top:2px;">⚖️ <span class="cb-mono"
+              style="font-size:13px;">{{ truck.capacity_kg }}</span> kg · 📍 {{ truck.current_location }}</div>
         </div>
-        <span style="background:rgba(0,82,255,0.08); color:var(--color-primary); font-size:12px; font-weight:600; padding:4px 12px; border-radius:var(--radius-pill);">Available</span>
+        <span
+          style="background:rgba(0,82,255,0.08); color:var(--color-primary); font-size:12px; font-weight:600; padding:4px 12px; border-radius:var(--radius-pill);">Available</span>
       </div>
     </div>
 

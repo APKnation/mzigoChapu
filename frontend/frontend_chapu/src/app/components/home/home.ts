@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
@@ -43,7 +43,7 @@ export class Home implements OnInit, OnDestroy {
   publicTrucks: PublicTruck[] = [];
   loadingData = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private cdr: ChangeDetectorRef, private ngZone: NgZone) {}
 
   ngOnInit(): void {
     this.userRole = localStorage.getItem('userRole');
@@ -71,12 +71,21 @@ export class Home implements OnInit, OnDestroy {
         fetch('/api/loads/public/loads/'),
         fetch('/api/loads/public/trucks/')
       ]);
-      this.publicLoads = loadsRes.ok ? await loadsRes.json() : [];
-      this.publicTrucks = trucksRes.ok ? await trucksRes.json() : [];
+      const loads = loadsRes.ok ? await loadsRes.json() : [];
+      const trucks = trucksRes.ok ? await trucksRes.json() : [];
+      // Run inside Angular zone so change detection fires
+      this.ngZone.run(() => {
+        this.publicLoads = loads;
+        this.publicTrucks = trucks;
+        this.loadingData = false;
+        this.cdr.detectChanges();
+      });
     } catch (e) {
       console.error('Failed to fetch public data', e);
-    } finally {
-      this.loadingData = false;
+      this.ngZone.run(() => {
+        this.loadingData = false;
+        this.cdr.detectChanges();
+      });
     }
   }
 
