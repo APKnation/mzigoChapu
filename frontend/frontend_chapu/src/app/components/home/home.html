@@ -1,81 +1,4 @@
 <!-- ═══════════════════════════════════════════
-     SHARED TOP NAV
-═══════════════════════════════════════════ -->
-<nav class="cb-nav flex items-center justify-between px-5 py-4 md:px-8" [class.cb-nav-dark]="!userRole"
-  [style.background]="userRole ? 'var(--color-canvas)' : 'var(--color-surface-dark)'">
-  <!-- Logo -->
-  <a routerLink="/" class="flex items-center gap-2 no-underline transition-transform duration-200 hover:scale-[1.02]">
-    <div class="flex h-9 w-9 items-center justify-center rounded-xl font-bold text-white shadow-md"
-      style="background: var(--color-primary);">
-      M
-    </div>
-
-    <span class="text-lg font-bold tracking-tight" style="
-        color: var(--color-primary);
-        font-family: var(--font-display);
-      ">
-      mzigoChapU
-    </span>
-  </a>
-
-  <!-- Right Side -->
-  <div class="flex items-center gap-2 md:gap-3">
-
-    <!-- Guest -->
-    <ng-container *ngIf="!userRole">
-
-      <a routerLink="/login"
-        class="rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-[1px]" style="
-          color: var(--color-primary);
-          border: 1px solid var(--color-primary);
-        ">
-        Sign in
-      </a>
-
-      <a routerLink="/register"
-        class="rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-[1px] hover:shadow-md"
-        style="background: var(--color-primary);">
-        Get started
-      </a>
-
-    </ng-container>
-
-    <!-- Logged In -->
-    <ng-container *ngIf="userRole">
-
-      <!-- Role -->
-      <span class="hidden rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wide sm:inline-flex" style="
-          color: var(--color-primary);
-          background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-          border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
-        ">
-        {{ getRoleDisplay() }}
-      </span>
-
-      <!-- Mobile Role -->
-      <span class="flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold sm:hidden" style="
-          color: var(--color-primary);
-          background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-        ">
-        {{ getRoleDisplay().charAt(0) }}
-      </span>
-
-      <!-- Logout -->
-      <button (click)="logout()" type="button"
-        class="rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-[1px]" style="
-          color: var(--color-primary);
-          border: 1px solid var(--color-primary);
-          background: transparent;
-        ">
-        Sign out
-      </button>
-
-    </ng-container>
-
-  </div>
-</nav>
-
-<!-- ═══════════════════════════════════════════
      SUPER ADMIN DASHBOARD
 ═══════════════════════════════════════════ -->
 <div *ngIf="userRole === 'superadmin'" style="padding-top:64px;">
@@ -177,12 +100,18 @@
         </div>
         <div class="cb-card">
           <div style="font-size:28px; margin-bottom:16px;">🚛</div>
-          <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8EnglishKiswahili
-LoginRegisterpx;">Available drivers</div>
+          <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">Available drivers</div>
           <div class="cb-mono" style="font-size:36px; color:var(--color-up); margin:8px 0;">{{ publicTrucks.length }}
           </div>
           <p class="cb-body-sm" style="margin:0;">Trucks ready to carry your cargo</p>
         </div>
+        <a (click)="toggleMyBookings()" class="cb-card"
+          style="text-decoration:none; cursor:pointer; display:block; border:2px solid var(--color-up);">
+          <div style="font-size:28px; margin-bottom:16px;">📅</div>
+          <div class="cb-title-md" style="color:var(--color-ink); margin-bottom:8px;">My bookings</div>
+          <div class="cb-mono" style="font-size:36px; color:var(--color-up); margin:8px 0;">{{ activeBookings.length }}</div>
+          <p class="cb-body-sm" style="margin:0;">Trucks you've reserved</p>
+        </a>
       </div>
       <ng-container *ngTemplateOutlet="liveGrid"></ng-container>
     </div>
@@ -408,6 +337,160 @@ LoginRegisterpx;">Available drivers</div>
 </div>
 
 <!-- ═══════════════════════════════════════════
+     MY BOOKINGS SECTION
+═══════════════════════════════════════════ -->
+<div *ngIf="userRole === 'cargo_owner' && myBookings.length > 0"
+  style="padding:48px 0 0 0;">
+  <div class="cb-container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+      <div>
+        <h2 class="cb-display-lg" style="margin:0 0 4px 0;">My bookings</h2>
+        <p class="cb-body" style="margin:0;">Trucks you've booked for cargo transport.</p>
+      </div>
+      <span class="cb-badge">{{ activeBookings.length }} active</span>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:20px;">
+      <div *ngFor="let booking of myBookings" class="cb-card"
+        style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div style="font-size:13px; color:var(--color-muted); margin-bottom:2px;">Truck</div>
+            <div style="font-weight:600; color:var(--color-ink);">{{ booking.truck_type || 'Truck #' + booking.truck }}</div>
+            <div style="font-size:13px; color:var(--color-muted);">📍 {{ booking.truck_capacity ? booking.truck_capacity + ' kg' : '' }}</div>
+          </div>
+          <span [style.background]="booking.status === 'cancelled' ? 'rgba(230,43,30,0.1)' : booking.status === 'confirmed' ? 'rgba(0,202,142,0.1)' : 'rgba(0,82,255,0.1)'"
+            [style.color]="booking.status === 'cancelled' ? '#f87171' : booking.status === 'confirmed' ? 'var(--color-up)' : 'var(--color-primary)'"
+            style="font-size:12px; font-weight:600; padding:4px 12px; border-radius:var(--radius-pill); white-space:nowrap;">
+            {{ booking.status }}
+          </span>
+        </div>
+        <hr class="cb-divider">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:13px;">
+          <div>
+            <div style="color:var(--color-muted);">From</div>
+            <div style="color:var(--color-ink); font-weight:500;">{{ booking.pickup_location }}</div>
+          </div>
+          <div>
+            <div style="color:var(--color-muted);">To</div>
+            <div style="color:var(--color-ink); font-weight:500;">{{ booking.dropoff_location }}</div>
+          </div>
+        </div>
+        <button *ngIf="booking.status !== 'cancelled' && booking.status !== 'completed'"
+          (click)="cancelBooking(booking)"
+          style="align-self:flex-start; padding:6px 16px; font-size:13px; font-weight:600; border-radius:var(--radius-md); background:transparent; color:#f87171; border:1px solid rgba(230,43,30,0.3); cursor:pointer; transition:background 0.15s;">
+          Cancel booking
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     BOOKING MODAL
+═══════════════════════════════════════════ -->
+<div *ngIf="showBookingModal"
+  style="position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; display:flex; align-items:center; justify-content:center; padding:24px;">
+  <div class="cb-card" style="width:100%; max-width:520px; max-height:90vh; overflow-y:auto;">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+      <h3 class="cb-title-md">Book a truck</h3>
+      <button (click)="closeBookingModal()"
+        style="background:none; border:none; cursor:pointer; color:var(--color-muted); font-size:20px; line-height:1; padding:4px;">
+        ✕
+      </button>
+    </div>
+
+    <!-- Selected truck info -->
+    <div *ngIf="selectedTruck"
+      style="background:var(--color-surface-soft); border-radius:var(--radius-md); padding:16px; margin-bottom:24px;">
+      <div style="font-size:12px; color:var(--color-muted); margin-bottom:4px;">Truck</div>
+      <div style="font-weight:600; color:var(--color-ink);">{{ selectedTruck.vehicle_type }}</div>
+      <div style="font-size:13px; color:var(--color-muted); margin-top:4px;">
+        ⚖️ {{ selectedTruck.capacity_kg }} kg · 📍 {{ selectedTruck.current_location }}
+      </div>
+    </div>
+
+    <div *ngIf="bookingMessage" class="cb-alert-success" style="margin-bottom:16px;">✓ {{ bookingMessage }}</div>
+    <div *ngIf="bookingError" class="cb-alert-error" style="margin-bottom:16px;">{{ bookingError }}</div>
+
+    <form (ngSubmit)="submitBooking()" style="display:flex; flex-direction:column; gap:20px;">
+
+      <!-- Pickup Region -->
+      <div>
+        <label class="cb-input-label">Pickup region</label>
+        <select class="cb-select" [(ngModel)]="bookingPickupRegion" name="bk_pickup_region"
+          (change)="onBookingPickupRegionChange()" required>
+          <option value="" disabled>Select region...</option>
+          <option *ngFor="let r of bookingRegions" [value]="r">{{ r }}</option>
+        </select>
+      </div>
+
+      <div *ngIf="bookingPickupTowns.length > 0">
+        <label class="cb-input-label">Pickup town</label>
+        <select class="cb-select" [(ngModel)]="bookingForm.pickup_location" name="bk_pickup_location" required>
+          <option value="" disabled>Select town...</option>
+          <option *ngFor="let t of bookingPickupTowns" [value]="t">{{ t }}</option>
+        </select>
+      </div>
+
+      <!-- Dropoff Region -->
+      <div>
+        <label class="cb-input-label">Dropoff region</label>
+        <select class="cb-select" [(ngModel)]="bookingDropoffRegion" name="bk_dropoff_region"
+          (change)="onBookingDropoffRegionChange()" required>
+          <option value="" disabled>Select region...</option>
+          <option *ngFor="let r of bookingRegions" [value]="r">{{ r }}</option>
+        </select>
+      </div>
+
+      <div *ngIf="bookingDropoffTowns.length > 0">
+        <label class="cb-input-label">Dropoff town</label>
+        <select class="cb-select" [(ngModel)]="bookingForm.dropoff_location" name="bk_dropoff_location" required>
+          <option value="" disabled>Select town...</option>
+          <option *ngFor="let t of bookingDropoffTowns" [value]="t">{{ t }}</option>
+        </select>
+      </div>
+
+      <!-- Weight -->
+      <div>
+        <label class="cb-input-label">Cargo weight (kg)</label>
+        <input type="number" class="cb-input" [(ngModel)]="bookingForm.weight_kg" name="bk_weight"
+          min="1" max="50000" required>
+      </div>
+
+      <!-- Cargo Description -->
+      <div>
+        <label class="cb-input-label">Cargo description</label>
+        <select class="cb-select" [(ngModel)]="bookingForm.cargo_description" name="bk_cargo_desc">
+          <option value="">Select cargo type...</option>
+          <option value="Agricultural produce">Agricultural produce</option>
+          <option value="Fresh produce">Fresh produce</option>
+          <option value="Building materials">Building materials</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Household goods">Household goods</option>
+          <option value="Industrial equipment">Industrial equipment</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <!-- Notes -->
+      <div>
+        <label class="cb-input-label">Notes (optional)</label>
+        <textarea class="cb-input" [(ngModel)]="bookingForm.notes" name="bk_notes"
+          rows="2" placeholder="Any special instructions..."></textarea>
+      </div>
+
+      <!-- Submit -->
+      <div style="display:flex; gap:12px;">
+        <button type="button" (click)="closeBookingModal()" class="cb-btn-secondary" style="flex:1;">Cancel</button>
+        <button type="submit" class="cb-btn-primary" style="flex:2;">Confirm booking</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
      SHARED LIVE DATA GRID TEMPLATE
 ═══════════════════════════════════════════ -->
 <ng-template #liveGrid>
@@ -457,16 +540,19 @@ LoginRegisterpx;">Available drivers</div>
         <p class="cb-body-sm" style="margin:0;">Truck owners can list their vehicles here.</p>
       </div>
       <div *ngFor="let truck of publicTrucks"
-        style="padding:16px 28px; border-bottom:1px solid var(--color-hairline-soft); display:flex; align-items:center; justify-content:space-between; transition:background 0.15s;"
+        style="padding:16px 28px; border-bottom:1px solid var(--color-hairline-soft); display:flex; align-items:center; justify-content:space-between; gap:12px; transition:background 0.15s;"
         onmouseover="this.style.background='var(--color-surface-soft)'"
         onmouseout="this.style.background='transparent'">
-        <div>
+        <div style="flex:1; min-width:0;">
           <div style="font-size:15px; font-weight:500; color:var(--color-ink);">{{ truck.vehicle_type }}</div>
           <div style="font-size:13px; color:var(--color-muted); margin-top:2px;">⚖️ <span class="cb-mono"
               style="font-size:13px;">{{ truck.capacity_kg }}</span> kg · 📍 {{ truck.current_location }}</div>
         </div>
-        <span
-          style="background:rgba(0,82,255,0.08); color:var(--color-primary); font-size:12px; font-weight:600; padding:4px 12px; border-radius:var(--radius-pill);">Available</span>
+        <button (click)="openBookingModal(truck)"
+          style="flex-shrink:0; padding:6px 16px; font-size:13px; font-weight:600; border-radius:var(--radius-pill); background:var(--color-primary); color:#000; border:none; cursor:pointer; transition:opacity 0.15s; white-space:nowrap;"
+          onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+          Book
+        </button>
       </div>
     </div>
 

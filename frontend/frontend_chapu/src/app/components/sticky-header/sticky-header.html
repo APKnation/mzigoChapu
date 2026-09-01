@@ -1,0 +1,162 @@
+<!-- ═══════════════════════════════════════════
+     STICKY SHRINKING HEADER
+═══════════════════════════════════════════ -->
+<header
+  class="sticky-header"
+  [class.scrolled]="isScrolled">
+
+  <!-- Header inner container -->
+  <div class="header-inner">
+
+    <!-- LEFT: Logo -->
+    <a routerLink="/" class="logo-link">
+      <svg class="logo-svg" viewBox="0 0 120 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="16" fill="currentColor" font-family="Inter, sans-serif" font-size="18" font-weight="700" letter-spacing="-0.5">mzigoChapU</text>
+      </svg>
+    </a>
+
+    <!-- RIGHT: Desktop nav -->
+    <nav class="desktop-nav">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#about" class="nav-link">About</a>
+
+      <div class="nav-divider"></div>
+
+      <a routerLink="/login" class="btn-outline">Sign In</a>
+      <a routerLink="/register" class="btn-solid">Get Started</a>
+    </nav>
+
+    <!-- MOBILE: Hamburger button -->
+    <button
+      class="hamburger-btn"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen"
+      aria-label="Toggle menu">
+      <svg class="hamburger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <!-- Top line -->
+        <line
+          class="line-top"
+          [class.open]="menuOpen"
+          x1="3" y1="6" x2="21" y2="6" />
+        <!-- Middle line -->
+        <line
+          class="line-mid"
+          [class.open]="menuOpen"
+          x1="3" y1="12" x2="21" y2="12" />
+        <!-- Bottom line -->
+        <line
+          class="line-bot"
+          [class.open]="menuOpen"
+          x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- MOBILE: Full-screen overlay -->
+  <div
+    class="mobile-overlay"
+    [class.open]="menuOpen"
+    (click)="closeMenu()">
+    <nav class="mobile-nav" (click)="$event.stopPropagation()">
+      <a href="#features" class="mobile-link" (click)="closeMenu()">Features</a>
+      <a href="#pricing" class="mobile-link" (click)="closeMenu()">Pricing</a>
+      <a href="#about" class="mobile-link" (click)="closeMenu()">About</a>
+
+      <div class="mobile-ctas">
+        <a routerLink="/login" class="mobile-btn-outline" (click)="closeMenu()">Sign In</a>
+        <a routerLink="/register" class="mobile-btn-solid" (click)="closeMenu()">Get Started</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     PAGE CONTENT — Skeleton placeholders
+═══════════════════════════════════════════ -->
+<main class="page-content">
+
+  <!-- Hero skeleton -->
+  <section class="content-section">
+    <div class="skeleton-bar h-12 w-3/4 mb-4"></div>
+    <div class="skeleton-bar h-12 w-1/2 mb-8"></div>
+    <div class="skeleton-bar h-5 w-full mb-3"></div>
+    <div class="skeleton-bar h-5 w-5/6 mb-3"></div>
+    <div class="skeleton-bar h-5 w-4/6 mb-3"></div>
+    <div class="skeleton-bar h-5 w-2/3"></div>
+  </section>
+
+  <!-- Content block 1 -->
+  <section class="content-section">
+    <div class="skeleton-bar h-8 w-2/5 mb-6"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-4/5 mb-3"></div>
+    <div class="skeleton-bar h-4 w-3/4 mb-3"></div>
+    <div class="skeleton-bar h-4 w-5/6 mb-3"></div>
+    <div class="skeleton-bar h-4 w-2/3"></div>
+  </section>
+
+  <!-- Content block 2 -->
+  <section class="content-section">
+    <div class="skeleton-bar h-8 w-1/3 mb-6"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-5/6 mb-3"></div>
+    <div class="skeleton-bar h-4 w-3/4 mb-3"></div>
+    <div class="skeleton-bar h-4 w-4/5"></div>
+  </section>
+
+  <!-- Content block 3 -->
+  <section class="content-section">
+    <div class="skeleton-bar h-8 w-2/5 mb-6"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-5/6 mb-3"></div>
+    <div class="skeleton-bar h-4 w-4/5 mb-3"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-3/4 mb-3"></div>
+    <div class="skeleton-bar h-4 w-2/3"></div>
+  </section>
+
+  <!-- Content block 4 -->
+  <section class="content-section">
+    <div class="skeleton-bar h-8 w-1/2 mb-6"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-4/5 mb-3"></div>
+    <div class="skeleton-bar h-4 w-3/4 mb-3"></div>
+    <div class="skeleton-bar h-4 w-5/6"></div>
+  </section>
+
+  <!-- Content block 5 -->
+  <section class="content-section">
+    <div class="skeleton-bar h-8 w-2/5 mb-6"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-5/6 mb-3"></div>
+    <div class="skeleton-bar h-4 w-4/5 mb-3"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-3/4 mb-3"></div>
+    <div class="skeleton-bar h-4 w-2/3"></div>
+  </section>
+
+  <!-- Content block 6 -->
+  <section class="content-section">
+    <div class="skeleton-bar h-8 w-1/3 mb-6"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-5/6 mb-3"></div>
+    <div class="skeleton-bar h-4 w-4/5 mb-3"></div>
+    <div class="skeleton-bar h-4 w-3/4"></div>
+  </section>
+
+  <!-- Content block 7 -->
+  <section class="content-section">
+    <div class="skeleton-bar h-8 w-2/5 mb-6"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-5/6 mb-3"></div>
+    <div class="skeleton-bar h-4 w-4/5 mb-3"></div>
+    <div class="skeleton-bar h-4 w-full mb-3"></div>
+    <div class="skeleton-bar h-4 w-3/4 mb-3"></div>
+    <div class="skeleton-bar h-4 w-2/3"></div>
+  </section>
+</main>

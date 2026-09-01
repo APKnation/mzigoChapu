@@ -5,6 +5,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+@import "tailwindcss";
+
 /* ── Design Tokens ─────────────────────────────────────── */
 :root {
   /* Canvas & Surfaces */
@@ -59,6 +61,24 @@
   --r-xl:   16px;
   --r-xxl:  24px;
   --r-pill: 9999px;
+
+  /* Product aliases for dashboard compatibility */
+  --color-primary: var(--hc-accent-blue);
+  --color-canvas: var(--hc-canvas);
+  --color-surface-dark: var(--hc-canvas);
+  --color-surface-dark-elevated: var(--hc-surface-1);
+  --color-on-dark: var(--hc-ink);
+  --color-on-dark-soft: var(--hc-ink-muted);
+  --color-ink: var(--hc-ink);
+  --color-up: var(--hc-success);
+  --color-muted: var(--hc-ink-subtle);
+  --color-hairline: var(--hc-hairline);
+  --color-hairline-soft: var(--hc-hairline-soft);
+  --font-display: var(--font);
+  --font-body: var(--font);
+  --radius-pill: var(--r-pill);
+  --radius-xl: var(--r-xl);
+  --radius-md: var(--r-md);
 }
 
 /* ── Base Reset ─────────────────────────────────────────── */
@@ -370,24 +390,6 @@ img { display: block; max-width: 100%; }
 
 /* ── Compatibility aliases (used in dashboard sections) ── */
 .cb-btn-primary { @extend .hc-btn-primary; }
-
-/* Keep Coinbase classes as aliases so dashboards still work */
---color-primary: var(--hc-accent-blue);
---color-canvas: var(--hc-canvas);
---color-surface-dark: var(--hc-canvas);
---color-surface-dark-elevated: var(--hc-surface-1);
---color-on-dark: var(--hc-ink);
---color-on-dark-soft: var(--hc-ink-muted);
---color-ink: var(--hc-ink);
---color-up: var(--hc-success);
---color-muted: var(--hc-ink-subtle);
---color-hairline: var(--hc-hairline);
---color-hairline-soft: var(--hc-hairline-soft);
---font-display: var(--font);
---font-body: var(--font);
---radius-pill: var(--r-pill);
---radius-xl: var(--r-xl);
---radius-md: var(--r-md);
 
 /* keep cb-* classes working in dashboards */
 .cb-container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }

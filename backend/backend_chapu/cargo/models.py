@@ -64,3 +64,36 @@ class Truck(models.Model):
 
     def __str__(self):
         return f"{self.vehicle_type} ({self.capacity_kg}kg) - {self.owner.username}"
+
+
+# Booking model for cargo owners to book available trucks
+class Booking(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending Confirmation'),
+        ('confirmed', 'Confirmed'),
+        ('in_transit', 'In Transit'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    # Cargo owner who made the booking
+    cargo_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookings_made')
+    # Truck being booked
+    truck = models.ForeignKey(Truck, on_delete=models.CASCADE, related_name='bookings')
+    # Optional: link to an existing cargo/load
+    cargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL, null=True, blank=True, related_name='bookings')
+
+    pickup_location = models.CharField(max_length=255)
+    dropoff_location = models.CharField(max_length=255)
+    weight_kg = models.DecimalField(max_digits=10, decimal_places=2, default=1.0)
+    cargo_description = models.TextField(blank=True, default='')
+    notes = models.TextField(blank=True, default='')
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)  # Agreed price in TZS
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Booking #{self.id}: {self.pickup_location} → {self.dropoff_location} ({self.status})"
