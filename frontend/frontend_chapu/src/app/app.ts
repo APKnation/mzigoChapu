@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar';
+import { StickyHeader } from './components/sticky-header/sticky-header';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet, StickyHeader],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
